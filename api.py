@@ -11,19 +11,17 @@ def get_query(query):
     base_query = {
         "min_score": 0.5,
         "query": {
-            "bool": {
-                "must": [
-                    {
-                        "match_phrase_prefix": {
-                            "full_name": {
-                                "query": query
-                            }
-                        }
-                    }
+            "multi_match": {
+                "query": query,
+                "type": "most_fields",
+                "fields": [
+                    "full_name",
+                    "npi",
+                    "city",
+                    "state"
                 ],
-                "filter": [],
-                "should": [],
-                "must_not": []
+                "fuzziness": "AUTO",
+                "prefix_length": 3
             }
         }
     }
